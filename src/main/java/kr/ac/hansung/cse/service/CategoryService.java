@@ -1,5 +1,6 @@
 package kr.ac.hansung.cse.service;
 
+import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 import kr.ac.hansung.cse.model.Category;
 import kr.ac.hansung.cse.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class CategoryService {
         if(category.getName() == null) {
             throw new IllegalArgumentException("카테고리 이름은 필수입니다.");
         }
+
+        categoryRepository.findByName(category.getName())
+                .ifPresent(c -> { throw new DuplicateCategoryException(category.getName()); });
 
         return categoryRepository.save(category);
     }
