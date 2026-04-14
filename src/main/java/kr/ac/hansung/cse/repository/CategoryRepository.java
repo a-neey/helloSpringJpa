@@ -46,5 +46,21 @@ public class CategoryRepository {
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
+
+    // 연결 상품 개수 확인
+    public long countProductsByCategoryId(Long categoryId) {
+        return em.createQuery(
+                        "SELECT COUNT(p) FROM Product p WHERE p.category.id = :id",
+                        Long.class)
+                .setParameter("id", categoryId).getSingleResult();
+    }
+
+    public void delete(Long id) {
+        Category category = em.find(Category.class, id);
+
+        if(category != null) {
+            em.remove(category);
+        }
+    }
 }
 
