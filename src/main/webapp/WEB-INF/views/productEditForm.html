@@ -39,7 +39,9 @@
     </style>
 </head>
 <body>
-
+    <header>
+        <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2371429 | 성명 : 김예나'}" />
+    </header>
     <h1>
         상품 수정
         <span class="editing-badge" th:text="'ID: #' + ${productForm.id}">ID: #1</span>
