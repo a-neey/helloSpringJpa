@@ -6,6 +6,7 @@ import jakarta.persistence.TypedQuery;
 import kr.ac.hansung.cse.model.Product;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +89,25 @@ public class ProductRepository {
                 .setParameter("id", id)
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
+    }
+
+    /* 상품 검색 */
+    public List<Product> findByCategoryId(Long id) {
+        return entityManager
+                .createQuery(
+                        "SELECT p FROM Product as p LEFT JOIN FETCH p.category WHERE p.category.id = :id", Product.class
+                )
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    /* 특정 키워드 상품 조회 */
+    public List<Product> findByNameContaining(String keyword) {
+        return entityManager.createQuery(
+                        "SELECT p FROM Product as p LEFT JOIN FETCH p.category WHERE p.name LIKE :keyword", Product.class
+                )
+                .setParameter("keyword", "%" + keyword + "%")
+                .getResultList();
     }
 
     /**
