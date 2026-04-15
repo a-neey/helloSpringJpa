@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko_KR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 목록</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        header { font-size: 13px; color: #888; margin-bottom: 24px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 14px; border-bottom: 1px solid #eee; text-align: left; }
+        th { font-size: 13px; color: #888; }
+        button { padding: 8px 16px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: white; font-size: 14px; text-decoration: none; color: #333; }
+        button:hover { background: #f5f5f5; }
+        .plus {  display: inline-block; padding: 8px 16px; border: 1px solid #434343; border-radius: 4px; cursor: pointer; background: white; font-size: 14px; text-decoration: none; color: #434343; margin-bottom: 16px;}
+        .plus:hover { background: #434343; color: #FFFFFF }
+        .success { color: green; font-size: 14px; }
+        .error { color: red; font-size: 14px; }
+    </style>
+</head>
+<body>
+<header>
+    <p th:text="${'실습 수행 일시 : ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 (E) a hh:mm:ss') + ' | 학번 : 2371429 | 성명 : 김예나'}"></p>
+</header>
+
+<p class="success" th:if="${successMessage}" th:text="${successMessage}"></p>
+<p class="error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+<a class="plus" href="/categories/create">+ 카테고리 등록</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>이름</th>
+        <th>삭제</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cat : ${categories}">
+        <td th:text="${cat.id}"></td>
+        <td th:text="${cat.name}"></td>
+        <td>
+            <form th:action="@{/categories/{id}/delete(id=${cat.id})}" method="post">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
