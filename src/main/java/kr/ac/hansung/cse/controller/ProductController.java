@@ -75,6 +75,7 @@ public class ProductController {
 
         model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryId", categoryId);
         model.addAttribute("products", products);
         return "productList";
     }
